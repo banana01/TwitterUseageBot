@@ -8,11 +8,14 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.nio.Buffer;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,11 +26,38 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.xml.crypto.dsig.Transform;
 
-public class Histogram extends JPanel
+public class BarGraph extends JPanel
 {
-	protected static final int MIN_BAR_WIDTH = 20;
+	protected static final int MIN_BAR_WIDTH = 8, MIN_BAR_SPACING = 4;
 	private Map<String, Integer> data;
-	public Histogram(Map<String, Integer> dataMap)
+	public BarGraph(Map<String, Integer> dataMap)
+	{
+		initGraph(dataMap);
+		
+		
+	}
+
+	public BarGraph(Map<String, Integer> dataMap, int truncate)
+	{
+		data = new LinkedHashMap<String, Integer>();
+		Iterator<Entry<String, Integer>> it = dataMap.entrySet().iterator();
+    	while(it.hasNext())
+    	{
+    		Map.Entry<String, Integer> entry = (Entry<String, Integer>) it.next();
+			if(entry.getValue() > truncate)
+			{
+				data.put(entry.getKey(), entry.getValue());
+			}
+		}
+		initGraph(data);
+	}
+	public BufferedImage getScreenShot()
+	{
+		BufferedImage image = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_BGR);
+		this.paint(image.getGraphics());
+		return image;
+	}
+	private void initGraph(Map<String, Integer> dataMap)
 	{
 		data = new LinkedHashMap<String, Integer>();
 		List<Map.Entry<String, Integer>> entries = new ArrayList<Map.Entry<String,Integer>>(dataMap.entrySet());
@@ -45,19 +75,14 @@ public class Histogram extends JPanel
 		{
 			data.put(entry.getKey(), entry.getValue());
 		}
-		
-		
-		
-		int width = data.size() * MIN_BAR_WIDTH + 10;
+		int width = data.size() * (MIN_BAR_WIDTH+MIN_BAR_SPACING) + 20;
 		Dimension minSize = new Dimension(width, 128);
 		Dimension prefSize = new Dimension(width, 256);
 		setMinimumSize(minSize);
-		setPreferredSize(prefSize);
-		
-		
+		setPreferredSize(prefSize);	
 	}
 	public static void drawRotate(Graphics2D g2d, double x, double y, int angle, String text) 
-	{    
+	{    //wat how work
 	    g2d.translate((float)x,(float)y);
 	    g2d.rotate(Math.toRadians(angle));
 	    g2d.drawString(text,0,0);
@@ -72,17 +97,14 @@ public class Histogram extends JPanel
 		{
 			Graphics2D g2d = (Graphics2D) g.create();
 			int maxValue = 0;
-			String maxKey = null;
 			for (String key : data.keySet()) 
 			{
                 int value = data.get(key);
                 maxValue = Math.max(maxValue, value);
-                if(maxValue == value)
-                	maxKey = key;
             }
-			int xOffset = 5;
+			int xOffset = 10;
 			int yOffset = 10;
-			int width = getWidth() - 1 - xOffset*2;
+			int width = getWidth() - xOffset*2;
 			int height = getHeight() - 1 - yOffset*2;
 			g2d.setColor(Color.DARK_GRAY);
 			g2d.drawRect(xOffset, yOffset, width, height);
@@ -101,9 +123,9 @@ public class Histogram extends JPanel
 				g2d.fill(bar);
 				g2d.setColor(Color.BLUE);
                 g2d.draw(bar);
-                xPos += barWidth+5;
+                xPos += barWidth+MIN_BAR_SPACING;
                 g2d.setColor(Color.RED);
-                g.setFont(new Font("TimesRoman", Font.PLAIN, 20)); 
+                //g2d.setFont(new Font("TimesRoman", Font.BOLD, 12)); 
                 int vertOffset = g2d.getFontMetrics().stringWidth(key+" "+value);
                 if(barHeight >= vertOffset)
                 	drawRotate(g2d, xPos-barWidth, yPos, 90, key+" "+value);
