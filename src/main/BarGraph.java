@@ -28,7 +28,7 @@ import javax.xml.crypto.dsig.Transform;
 
 public class BarGraph extends JPanel
 {
-	protected static final int MIN_BAR_WIDTH = 8, MIN_BAR_SPACING = 4;
+	protected static final int MIN_BAR_WIDTH = 12, MIN_BAR_SPACING = 4;
 	private Map<String, Integer> data;
 	public BarGraph(Map<String, Integer> dataMap)
 	{
@@ -108,7 +108,7 @@ public class BarGraph extends JPanel
 			int height = getHeight() - 1 - yOffset*2;
 			g2d.setColor(Color.DARK_GRAY);
 			g2d.drawRect(xOffset, yOffset, width, height);
-			int barWidth = Math.max(MIN_BAR_WIDTH, (int)Math.floor((float)width/(float)data.size()));
+			int barWidth = Math.max(MIN_BAR_WIDTH, (int)Math.floor(((float)width-((float)MIN_BAR_SPACING*(float)data.size()))/(float)data.size()));
 			
 			int xPos = xOffset;
 			for (String key : data.keySet()) 
@@ -128,9 +128,9 @@ public class BarGraph extends JPanel
                 //g2d.setFont(new Font("TimesRoman", Font.BOLD, 12)); 
                 int vertOffset = g2d.getFontMetrics().stringWidth(key+" "+value);
                 if(barHeight >= vertOffset)
-                	drawRotate(g2d, xPos-barWidth, yPos, 90, key+" "+value);
+                	drawRotate(g2d, xPos-barWidth-MIN_BAR_SPACING/2, yPos, 90, key.toUpperCase()+" "+value);
                 else 
-                	drawRotate(g2d, xPos-barWidth, yPos-vertOffset, 90, key+" "+value);
+                	drawRotate(g2d, xPos-barWidth-MIN_BAR_SPACING/2, yPos-vertOffset, 90, key.toUpperCase()+" "+value);
               //  g2d.drawString(key+" "+value, xPos-barWidth, yPos);
 			}
 		}

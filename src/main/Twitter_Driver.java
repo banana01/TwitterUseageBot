@@ -91,7 +91,7 @@ public class Twitter_Driver
           jFrame.setLocationRelativeTo(null);
           jFrame.setVisible(true);
           ImageIO.write(barGraph.getScreenShot(), "png", new File(twitter_handle+".png"));
-      
+          
 //          
           consolePrint.println();
           consolePrint.print("Please enter a Twitter handle, do not include the @ symbol --> ");
@@ -101,7 +101,8 @@ public class Twitter_Driver
       //bigBird.investigate();
          
          
-   }//end main         
+   }//end main  
+   
          
 }//end driver        
          
