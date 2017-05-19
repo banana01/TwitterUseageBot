@@ -31,74 +31,55 @@ public class Twitter_Driver
    public static void main (String []args) throws TwitterException, IOException
    {
       consolePrint = System.out;
-      
-      // PART 1
-      // set up classpath and properties file
-             
-      LHSTwitter bigBird = new LHSTwitter(consolePrint);
-         
-      //create message to tweet, then call the tweetOut method
-     
-      // PART 2
-      // Choose a public Twitter user's handle 
-         
-     
-       JFrame jFrame = new JFrame("Histogram");
-       jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-       jFrame.setLayout(new BorderLayout());
+      Tweeter tweeter = new Tweeter();
 
-//     Map<String, Integer> map = new HashMap<String,Integer>();
-//			map.put("AMAZING", 451);
-//			map.put("TEST", 124);
-//			map.put("LARGE", 56);
-//			map.put("TOWER", 345);
-//       jFrame.add(new JScrollPane(new Histogram(map)));
-//       jFrame.pack();
-//       jFrame.setLocationRelativeTo(null);
-//       jFrame.setVisible(true);
-       Scanner scan = new Scanner(System.in);
-       System.out.print("Please enter a Twitter handle, do not include the @symbol --> ");
-       String twitter_handle = scan.next();
-       String commonest;
-       String commonestword;
-       String commonestnum;
-       while (!twitter_handle.equals("done"))
-       {
-    	   commonest = null;
-    	   commonestword = "";
-    	   commonestnum = "";
-//          // Print the most popular word they tweet
-    	 
-           bigBird.makeSortedListOfWordsFromTweets(twitter_handle);
-           System.out.println("Twitter_Driver.main()2");
-          jFrame.setVisible(true);
-          commonest = bigBird.mostPopularWord(bigBird.getUsageMap(false));
-          for(int i = 0; i < commonest.length(); i++)
-          {
-        	  if(Character.isDigit(commonest.charAt(i)))
-        	  {
-        		  commonestnum += commonest.charAt(i);
-        	  }
-        	  else
-        	  {
-        		  commonestword += commonest.charAt(i);
-        	  }
-          }
-          consolePrint.println("The most common word from @" + twitter_handle + " is: " + commonestword +" with a count of:: "+commonestnum);
-          BarGraph barGraph = new BarGraph(bigBird.getUsageMapOfSize(10));
-          jFrame.add(new JScrollPane(barGraph));
-          jFrame.pack();
-          jFrame.setLocationRelativeTo(null);
-          jFrame.setVisible(true);
-          ImageIO.write(barGraph.getScreenShot(), "png", new File(twitter_handle+".png"));
-          
-//          
-          consolePrint.println();
-          consolePrint.print("Please enter a Twitter handle, do not include the @ symbol --> ");
-          twitter_handle = scan.next();
-       }
-       scan.close();
-      //bigBird.investigate();
+//      LHSTwitter bigBird = new LHSTwitter(consolePrint);
+//
+//       JFrame jFrame = new JFrame("Histogram");
+//       jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//       jFrame.setLayout(new BorderLayout());
+//
+//
+//       Scanner scan = new Scanner(System.in);
+//       System.out.print("Please enter a Twitter handle, do not include the @symbol --> ");
+//       String twitter_handle = scan.next();
+//       String commonest;
+//       String commonestword;
+//       String commonestnum;
+//       while (!twitter_handle.equals("done"))
+//       {
+//    	   commonest = null;
+//    	   commonestword = "";
+//    	   commonestnum = "";
+//    	 
+//           bigBird.makeSortedListOfWordsFromTweets(twitter_handle);
+//           System.out.println("Twitter_Driver.main()2");
+//          jFrame.setVisible(true);
+//          commonest = bigBird.mostPopularWord(bigBird.getUsageMap(false));
+//          for(int i = 0; i < commonest.length(); i++)
+//          {
+//        	  if(Character.isDigit(commonest.charAt(i)))
+//        	  {
+//        		  commonestnum += commonest.charAt(i);
+//        	  }
+//        	  else
+//        	  {
+//        		  commonestword += commonest.charAt(i);
+//        	  }
+//          }
+//          consolePrint.println("The most common word from @" + twitter_handle + " is: " + commonestword +" with a count of:: "+commonestnum);
+//          BarGraph barGraph = new BarGraph(bigBird.getUsageMapOfSize(10));
+//          jFrame.add(new JScrollPane(barGraph));
+//          jFrame.pack();
+//          jFrame.setLocationRelativeTo(null);
+//          jFrame.setVisible(true);
+//          ImageIO.write(barGraph.getScreenShot(), "png", new File(twitter_handle+".png"));
+//   
+//          consolePrint.println();
+//          consolePrint.print("Please enter a Twitter handle, do not include the @ symbol --> ");
+//          twitter_handle = scan.next();
+//       }
+//       scan.close();
          
          
    }//end main  
