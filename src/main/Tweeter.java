@@ -22,13 +22,7 @@ public class Tweeter
 	MentionListener ml;
 	public Tweeter()
 	{
-		cfb = new ConfigurationBuilder();
-		cfb.setDebugEnabled(true);
-		cfb.setOAuthConsumerKey("ep6rkXSxvFv8yomWQpV0kmntP");
-		cfb.setOAuthConsumerSecret("QaqLuXnDBYlBK5wkPTQpqi7fZyzNAQVUhdMF8WOCzEI3sUxrKj");
-		cfb.setOAuthAccessTokenSecret("edQOO3GyUk0zoMcEi0NvPiorcDH0lpupLoxNTzGBthBmi");
-		cfb.setOAuthAccessToken("861658168002260992-cBtm1zL66gHK2yh1zQESPwo2v7UOJWL");
-		this.twitter = new TwitterFactory(cfb.build()).getInstance();
+		this.twitter = new TwitterFactory().getSingleton();
 		//iUpload = new ImageUploadFactory().getInstance();
 		try
 		{
